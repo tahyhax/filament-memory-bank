@@ -1,6 +1,6 @@
 # Filament Memory Bank
 
-A modern Laravel + Filament admin panel for managing memory bank data, with Dockerized development, PostgreSQL, Redis, and robust project automation.
+A modern Laravel + Filament admin panel for managing educational courses, credits, and specialties. Production-ready, Dockerized, and built with PostgreSQL, Redis, and strict code standards.
 
 ---
 
@@ -44,38 +44,45 @@ make shell
 
 ---
 
-## 🛠️ Common Development Tasks
+## 📋 System Access
+- **Admin Panel**: http://localhost:8080/admin
+- **Login**: admin@example.com
+- **Password**: password
+- **Role**: super_admin (full access)
 
-- **Run migrations:**
-  ```bash
-  make migrate
-  ```
-- **Seed the database:**
-  ```bash
-  make seed
-  ```
-- **Fresh migration + seed:**
-  ```bash
-  make fresh
-  ```
-- **Run tests:**
-  ```bash
-  make test
-  ```
-- **View logs:**
-  ```bash
-  make logs
-  ```
-- **Queue management:**
-  ```bash
-  make queue-status    # Check queue worker status
-  make queue-restart   # Restart queue workers
-  make queue-monitor   # Monitor queue jobs
-  ```
-- **Filament admin user:**
-  ```bash
-  make filament-user
-  ```
+---
+
+## 🏗️ Technology Stack
+- **Framework**: Laravel 12 (strict types, PSR-12)
+- **Admin Panel**: Filament 3.x (professional UI/UX)
+- **Database**: PostgreSQL 15
+- **Cache/Queue**: Redis
+- **Containerization**: Docker (PHP 8.2+, Nginx, Supervisor)
+
+---
+
+## 🎨 Active Features
+- **CourseResource**: Sectioned forms, advanced filtering, export (Excel/CSV)
+- **CreditResource**: Date validation, status badges, requirements, export
+- **SpecialtyResource**: Skills (TagsInput), experience, certification, export
+- **Relationship Management**: Polymorphic (prerequisite, corequisite, recommended, awarded), pivot data
+- **Authentication**: Laravel Sanctum, Filament Shield, 40+ permissions
+- **Notifications**: Auto-generated, PostgreSQL JSON, interactive panel
+- **Export System**: Native Filament export, background jobs, progress tracking
+- **UI/UX**: Grouped navigation, dynamic badges, global search (Cmd+K/Ctrl+K), color scheme (Amber/Gray Slate)
+- **Performance**: Eager loading, Redis caching, chunked exports
+- **Security**: Role-based access, multi-layer validation, CSRF, user isolation
+
+---
+
+## 🛠️ Common Development Tasks
+- **Run migrations:** `make migrate`
+- **Seed the database:** `make seed`
+- **Fresh migration + seed:** `make fresh`
+- **Run tests:** `make test`
+- **View logs:** `make logs`
+- **Queue management:** `make queue-status`, `make queue-restart`, `make queue-monitor`
+- **Filament admin user:** `make filament-user`
 
 ---
 
@@ -88,16 +95,15 @@ make shell
 
 ---
 
-## 📝 License
-This project is open-sourced under the [MIT license](https://opensource.org/licenses/MIT).
+## 📝 Code Standards
+- **Strict Typing**: `declare(strict_types=1)` everywhere
+- **PSR-12**: Coding standards enforced
+- **PHPStan**: Array shapes and static analysis
+- **Comprehensive documentation**
 
 ---
 
-### ℹ️ Notes
-- Default database: **PostgreSQL** (see `docker-compose.yml` for credentials)
-- Caching/queue: **Redis**
-- Admin panel: **Filament** (Laravel package)
+## ℹ️ Notes
 - All API responses are in JSON format
-- Coding standards: PHP 8+, strict types, PSR-12, PHPStan array shapes
-
-For more details, see the documentation in `memory-bank/artifacts/`.
+- Default database: **PostgreSQL** (see `docker-compose.yml` for credentials)
+- For more details, see the documentation in `memory-bank/artifacts/`.
