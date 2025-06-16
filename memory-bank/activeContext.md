@@ -10,11 +10,11 @@
 ## 📋 ACTIVE SYSTEM COMPONENTS
 
 ### Core Application Stack
-- **Framework**: Laravel 11 with strict typing (`declare(strict_types=1)`)
+- **Framework**: Laravel 12 with strict typing (`declare(strict_types=1)`)
 - **Admin Panel**: Filament 3.x with professional UI/UX
 - **Database**: PostgreSQL 15 with optimized schema
 - **Cache/Sessions**: Redis for performance
-- **Container**: Docker with PHP 8.3, Nginx, Supervisor
+- **Container**: Docker with PHP 8.2+, Nginx, Supervisor
 
 ### Active Features in Production
 

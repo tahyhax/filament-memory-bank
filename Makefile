@@ -36,69 +36,69 @@ install: build up composer-install migrate seed filament-install
 
 build:
 	@echo "🔨 Building Docker containers..."
-	docker-compose -f .docker/docker-compose.yml build
+	docker-compose build
 
 up:
 	@echo "🚀 Starting Docker containers..."
-	docker-compose -f .docker/docker-compose.yml up -d
+	docker-compose up -d
 
 down:
 	@echo "🛑 Stopping Docker containers..."
-	docker-compose -f .docker/docker-compose.yml down
+	docker-compose down
 
 # Composer & Laravel
 composer-install:
 	@echo "📦 Installing Composer dependencies..."
-	docker-compose -f .docker/docker-compose.yml exec app composer install
+	docker-compose exec app composer install
 
 migrate:
 	@echo "🗄️ Running migrations..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan migrate
+	docker-compose exec app php artisan migrate
 
 seed:
 	@echo "🌱 Seeding database..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan db:seed
+	docker-compose exec app php artisan db:seed
 
 fresh:
 	@echo "🔄 Fresh migration with seeding..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan migrate:fresh --seed
+	docker-compose exec app php artisan migrate:fresh --seed
 
 # Queue Management
 queue-status:
 	@echo "⚡ Checking queue worker status..."
-	docker-compose -f .docker/docker-compose.yml exec app supervisorctl status
+	docker-compose exec app supervisorctl status
 
 queue-restart:
 	@echo "🔄 Restarting queue workers..."
-	docker-compose -f .docker/docker-compose.yml exec app supervisorctl restart laravel-queue:*
+	docker-compose exec app supervisorctl restart laravel-queue:*
 
 queue-monitor:
 	@echo "👀 Monitoring queue jobs..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan queue:monitor
+	docker-compose exec app php artisan queue:monitor
 
 # Development
 shell:
 	@echo "🐚 Accessing app container..."
-	docker-compose -f .docker/docker-compose.yml exec app bash
+	docker-compose exec app bash
 
 logs:
 	@echo "📋 Viewing container logs..."
-	docker-compose -f .docker/docker-compose.yml logs -f
+	docker-compose logs -f
 
 test:
 	@echo "🧪 Running tests..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan test
+	docker-compose exec app php artisan test
 
 # Filament
 filament-install:
 	@echo "🎛️ Installing Filament panel..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan filament:install --panels
+	docker-compose exec app php artisan filament:install --panels
 
 filament-user:
 	@echo "👤 Creating Filament admin user..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan make:filament-user
+	docker-compose exec app php artisan make:filament-user
 
 # Key generation
 key-generate:
 	@echo "🔑 Generating application key..."
-	docker-compose -f .docker/docker-compose.yml exec app php artisan key:generate 
+	docker-compose exec app php artisan key:generate 

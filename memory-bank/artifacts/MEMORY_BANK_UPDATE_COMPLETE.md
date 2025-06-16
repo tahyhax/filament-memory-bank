@@ -12,7 +12,7 @@
 **Size**: 9.4KB, 282 lines  
 **Contents**: Complete project description with:
 - Current status: Production Ready
-- Architecture: Laravel 11 + Filament 3 + PostgreSQL 15 + Redis
+- Architecture: Laravel 12 + Filament 3 + PostgreSQL 15 + Redis
 - All implemented features and capabilities
 - Technical documentation and specifications
 - Access and usage information
@@ -69,7 +69,7 @@
 ## 🏗️ What is Documented in the Memory-Bank
 
 ### Architecture and Technologies
-- **Backend**: Laravel 11, PHP 8.3, PostgreSQL 15, Redis
+- **Backend**: Laravel 12, PHP 8.2+, PostgreSQL 15, Redis
 - **Admin Panel**: Filament 3.x with professional UI/UX
 - **Infrastructure**: Docker (PHP-FPM, Nginx, PostgreSQL, Redis, Supervisor)
 - **Standards**: Strict typing, PSR-12, comprehensive error handling

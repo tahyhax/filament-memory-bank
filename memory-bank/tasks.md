@@ -9,8 +9,8 @@
 ## ✅ COMPLETED TASKS
 
 ### Phase 1: Foundation Setup (COMPLETE)
-- [x] **Docker Infrastructure** - PHP 8.3, PostgreSQL 15, Redis, Nginx, Supervisor
-- [x] **Laravel 11 Setup** - Strict typing, PSR-12 standards
+- [x] **Docker Infrastructure** - PHP 8.2+, PostgreSQL 15, Redis, Nginx, Supervisor
+- [x] **Laravel 12 Setup** - Strict typing, PSR-12 standards
 - [x] **Database Models** - Course, Credit, Specialty with polymorphic relationships
 - [x] **Factories & Seeders** - Comprehensive test data generation
 - [x] **CourseRelation Pivot** - Advanced relationship management
