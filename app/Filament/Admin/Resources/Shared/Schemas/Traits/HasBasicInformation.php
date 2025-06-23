@@ -13,10 +13,10 @@ trait HasBasicInformation
         return Forms\Components\Section::make('Basic Information')
             ->schema([
                 Forms\Components\Grid::make(2)->schema([
-                    Forms\Components\TextInput::make('name')
+                    Forms\Components\TextInput::make('title')
                         ->required()
                         ->maxLength(255)
-                        ->placeholder('Enter name...'),
+                        ->placeholder('Enter title...'),
                     Forms\Components\TextInput::make('code')
                         ->required()
                         ->maxLength(255)

@@ -15,7 +15,7 @@ class CreditPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_credit');
+        return $user->can('view_any_credits::credit');
     }
 
     /**
@@ -23,7 +23,7 @@ class CreditPolicy
      */
     public function view(User $user, Credit $credit): bool
     {
-        return $user->can('view_credit');
+        return $user->can('view_credits::credit');
     }
 
     /**
@@ -31,7 +31,7 @@ class CreditPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_credit');
+        return $user->can('create_credits::credit');
     }
 
     /**
@@ -39,7 +39,7 @@ class CreditPolicy
      */
     public function update(User $user, Credit $credit): bool
     {
-        return $user->can('update_credit');
+        return $user->can('update_credits::credit');
     }
 
     /**
@@ -47,7 +47,7 @@ class CreditPolicy
      */
     public function delete(User $user, Credit $credit): bool
     {
-        return $user->can('delete_credit');
+        return $user->can('delete_credits::credit');
     }
 
     /**
@@ -55,7 +55,7 @@ class CreditPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_credit');
+        return $user->can('delete_any_credits::credit');
     }
 
     /**
@@ -63,7 +63,7 @@ class CreditPolicy
      */
     public function forceDelete(User $user, Credit $credit): bool
     {
-        return $user->can('force_delete_credit');
+        return $user->can('force_delete_credits::credit');
     }
 
     /**
@@ -71,7 +71,7 @@ class CreditPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_credit');
+        return $user->can('force_delete_any_credits::credit');
     }
 
     /**
@@ -79,7 +79,7 @@ class CreditPolicy
      */
     public function restore(User $user, Credit $credit): bool
     {
-        return $user->can('restore_credit');
+        return $user->can('restore_credits::credit');
     }
 
     /**
@@ -87,7 +87,7 @@ class CreditPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_credit');
+        return $user->can('restore_any_credits::credit');
     }
 
     /**
@@ -95,7 +95,7 @@ class CreditPolicy
      */
     public function replicate(User $user, Credit $credit): bool
     {
-        return $user->can('replicate_credit');
+        return $user->can('replicate_credits::credit');
     }
 
     /**
@@ -103,6 +103,6 @@ class CreditPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_credit');
+        return $user->can('reorder_credits::credit');
     }
 }

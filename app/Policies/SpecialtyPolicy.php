@@ -15,7 +15,7 @@ class SpecialtyPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_specialty');
+        return $user->can('view_any_specialties::specialty');
     }
 
     /**
@@ -23,7 +23,7 @@ class SpecialtyPolicy
      */
     public function view(User $user, Specialty $specialty): bool
     {
-        return $user->can('view_specialty');
+        return $user->can('view_specialties::specialty');
     }
 
     /**
@@ -31,7 +31,7 @@ class SpecialtyPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_specialty');
+        return $user->can('create_specialties::specialty');
     }
 
     /**
@@ -39,7 +39,7 @@ class SpecialtyPolicy
      */
     public function update(User $user, Specialty $specialty): bool
     {
-        return $user->can('update_specialty');
+        return $user->can('update_specialties::specialty');
     }
 
     /**
@@ -47,7 +47,7 @@ class SpecialtyPolicy
      */
     public function delete(User $user, Specialty $specialty): bool
     {
-        return $user->can('delete_specialty');
+        return $user->can('delete_specialties::specialty');
     }
 
     /**
@@ -55,7 +55,7 @@ class SpecialtyPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_specialty');
+        return $user->can('delete_any_specialties::specialty');
     }
 
     /**
@@ -63,7 +63,7 @@ class SpecialtyPolicy
      */
     public function forceDelete(User $user, Specialty $specialty): bool
     {
-        return $user->can('force_delete_specialty');
+        return $user->can('force_delete_specialties::specialty');
     }
 
     /**
@@ -71,7 +71,7 @@ class SpecialtyPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_specialty');
+        return $user->can('force_delete_any_specialties::specialty');
     }
 
     /**
@@ -79,7 +79,7 @@ class SpecialtyPolicy
      */
     public function restore(User $user, Specialty $specialty): bool
     {
-        return $user->can('restore_specialty');
+        return $user->can('restore_specialties::specialty');
     }
 
     /**
@@ -87,7 +87,7 @@ class SpecialtyPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_specialty');
+        return $user->can('restore_any_specialties::specialty');
     }
 
     /**
@@ -95,7 +95,7 @@ class SpecialtyPolicy
      */
     public function replicate(User $user, Specialty $specialty): bool
     {
-        return $user->can('replicate_specialty');
+        return $user->can('replicate_specialties::specialty');
     }
 
     /**
@@ -103,6 +103,6 @@ class SpecialtyPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_specialty');
+        return $user->can('reorder_specialties::specialty');
     }
 }
