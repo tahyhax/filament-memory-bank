@@ -18,29 +18,66 @@ git clone <your-repo-url>
 cd filament-memory-bank
 ```
 
-### 2. Start the Project (All-in-One)
+### 2. Complete Project Installation
 ```bash
 make install
 ```
-This will:
+This comprehensive command will:
+- Create `.env` file from `.env.example` (if needed)
 - Build Docker containers
 - Start all services (app, nginx, postgres, redis)
 - Install Composer dependencies
-- Run database migrations and seeders
-- Install Filament admin panel
+- Install Node.js dependencies
+- Run database migrations
+- Seed the database with test data
 
-Access the app at: [http://localhost:8080](http://localhost:8080)
-
-### 3. Stopping and Restarting
+### 3. Build Frontend Assets
 ```bash
-make down   # Stop all containers
-make up     # Start containers again
+make npm-build
+```
+This builds the Vite assets required for the admin panel UI.
+
+### 4. Setup Roles & Permissions (Filament Shield)
+```bash
+make filament-shield
+```
+This will:
+- Install Filament Shield package
+- Setup roles and permissions system
+- Create super admin role
+- Publish configuration files
+
+### 5. Create Super Admin User
+```bash
+make filament-super-admin
 ```
 
-### 4. Accessing the App Container Shell
+### 6. Access the Application
+Access the admin panel at: [http://localhost:8080/admin](http://localhost:8080/admin)
+
+> **Installation Order**: Always run commands in this order:
+> 1. `make install` (complete project setup)
+> 2. `make npm-build` (build frontend assets)
+> 3. `make filament-shield` (setup roles & permissions)
+> 4. `make filament-super-admin` (create super admin user)
+
+> **Note**: The `make install` command automatically creates a `.env` file from `.env.example` if one doesn't exist. You can customize database credentials and other settings by editing the `.env` file before running `make install`, or use `make env-setup` to create the file separately.
+
+### Manual Environment Setup
+If you need to set up just the environment file:
 ```bash
-make shell
+make env-setup  # Creates .env from .env.example (if not exists)
 ```
+
+### Container Management
+```bash
+make down      # Stop all containers
+make up        # Start containers again
+make clean-all # Complete cleanup (stop, remove project resources + clean cache)
+make shell     # Access app container shell
+```
+
+> **Warning**: `make clean-all` removes **this project's** Docker containers, images, volumes, vendor/, node_modules/, and application caches. It only affects this specific project, not other Docker projects. After running it, you'll need to run `make install` to rebuild everything.
 
 ---
 
@@ -75,14 +112,39 @@ make shell
 
 ---
 
-## 🛠️ Common Development Tasks
+## 🛠️ Available Commands
+
+### 📦 Setup & Installation
+- **Complete installation:** `make install` (env + build + up + deps + migrate + seed)
+- **Complete cleanup:** `make clean-all` (stop, remove project resources + clean cache)
+- **Environment setup:** `make env-setup` (creates .env from .env.example)
+- **Build containers:** `make build`
+- **Start services:** `make up`
+- **Stop services:** `make down`
+
+### 🗄️ Database Operations
 - **Run migrations:** `make migrate`
 - **Seed the database:** `make seed`
 - **Fresh migration + seed:** `make fresh`
+
+### 🎨 Frontend Assets
+- **Install dependencies:** `make npm-install` (Node.js packages)
+- **Build production assets:** `make npm-build` (required for admin panel)
+- **Development server:** `make npm-dev` (Vite hot reload)
+
+### 🎛️ Filament Management
+- **Setup roles & permissions:** `make filament-shield` (installs and configures Filament Shield)
+- **Create super admin user:** `make filament-super-admin` (interactive)
+- 
+### ⚡ Queue Management
+- **Check queue status:** `make queue-status`
+- **Restart queue workers:** `make queue-restart`
+- **Monitor queue jobs:** `make queue-monitor`
+
+### 🔧 Development
 - **Run tests:** `make test`
 - **View logs:** `make logs`
-- **Queue management:** `make queue-status`, `make queue-restart`, `make queue-monitor`
-- **Filament admin user:** `make filament-user`
+- **Access shell:** `make shell`
 
 ---
 

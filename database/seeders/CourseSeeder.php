@@ -75,8 +75,16 @@ class CourseSeeder extends Seeder
 
         // Create the specific courses first
         foreach ($specificCourses as $courseData) {
-            Course::factory()->create($courseData);
-            $this->command->info("✅ Created course: {$courseData['title']}");
+            $course = Course::firstOrCreate(
+                ['code' => $courseData['code']], // Find by unique code
+                $courseData // Create with this data if not found
+            );
+            
+            if ($course->wasRecentlyCreated) {
+                $this->command->info("✅ Created course: {$courseData['title']}");
+            } else {
+                $this->command->info("ℹ️ Course already exists: {$courseData['title']}");
+            }
         }
 
         // Create additional random courses to reach 20 total

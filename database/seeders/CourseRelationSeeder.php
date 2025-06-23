@@ -51,36 +51,67 @@ class CourseRelationSeeder extends Seeder
         $entryProgrammer = Specialty::where('code', 'PG-001')->first();
 
         if ($webCourse && $webCredit) {
-            // Web course awards web development credit
-            $webCourse->credits()->attach($webCredit->id, [
-                'relation_type' => 'awarded',
-                'is_required' => true,
-                'weight' => 1,
-                'notes' => 'Automatically awarded upon course completion with 80% grade',
-            ]);
-            $this->command->info("✅ {$webCourse->title} → awards → {$webCredit->name}");
+            // Check if relationship already exists
+            $exists = $webCourse->credits()
+                ->wherePivot('relatable_id', $webCredit->id)
+                ->wherePivot('relatable_type', Credit::class)
+                ->wherePivot('relation_type', 'awarded')
+                ->exists();
+                
+            if (!$exists) {
+                // Web course awards web development credit
+                $webCourse->credits()->attach($webCredit->id, [
+                    'relation_type' => 'awarded',
+                    'is_required' => true,
+                    'weight' => 1,
+                    'notes' => 'Automatically awarded upon course completion with 80% grade',
+                ]);
+                $this->command->info("✅ {$webCourse->title} → awards → {$webCredit->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$webCourse->title} → awards → {$webCredit->name}");
+            }
         }
 
         if ($webCourse && $frontendSpecialty) {
-            // Web course is recommended for frontend specialty
-            $webCourse->specialties()->attach($frontendSpecialty->id, [
-                'relation_type' => 'recommended',
-                'is_required' => false,
-                'weight' => 1,
-                'notes' => 'Strongly recommended for frontend development path',
-            ]);
-            $this->command->info("✅ {$webCourse->title} → recommended for → {$frontendSpecialty->name}");
+            $exists = $webCourse->specialties()
+                ->wherePivot('relatable_id', $frontendSpecialty->id)
+                ->wherePivot('relatable_type', Specialty::class)
+                ->wherePivot('relation_type', 'recommended')
+                ->exists();
+                
+            if (!$exists) {
+                // Web course is recommended for frontend specialty
+                $webCourse->specialties()->attach($frontendSpecialty->id, [
+                    'relation_type' => 'recommended',
+                    'is_required' => false,
+                    'weight' => 1,
+                    'notes' => 'Strongly recommended for frontend development path',
+                ]);
+                $this->command->info("✅ {$webCourse->title} → recommended for → {$frontendSpecialty->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$webCourse->title} → recommended for → {$frontendSpecialty->name}");
+            }
         }
 
         if ($webCourse && $entryProgrammer) {
-            // Entry programmer specialty is prerequisite for web course
-            $webCourse->specialties()->attach($entryProgrammer->id, [
-                'relation_type' => 'prerequisite',
-                'is_required' => true,
-                'weight' => 1,
-                'notes' => 'Basic programming knowledge required',
-            ]);
-            $this->command->info("✅ {$entryProgrammer->name} → prerequisite for → {$webCourse->title}");
+            $exists = $webCourse->specialties()
+                ->wherePivot('relatable_id', $entryProgrammer->id)
+                ->wherePivot('relatable_type', Specialty::class)
+                ->wherePivot('relation_type', 'prerequisite')
+                ->exists();
+                
+            if (!$exists) {
+                // Entry programmer specialty is prerequisite for web course
+                $webCourse->specialties()->attach($entryProgrammer->id, [
+                    'relation_type' => 'prerequisite',
+                    'is_required' => true,
+                    'weight' => 1,
+                    'notes' => 'Basic programming knowledge required',
+                ]);
+                $this->command->info("✅ {$entryProgrammer->name} → prerequisite for → {$webCourse->title}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$entryProgrammer->name} → prerequisite for → {$webCourse->title}");
+            }
         }
 
         // Database Course relationships
@@ -89,21 +120,43 @@ class CourseRelationSeeder extends Seeder
         $dbSpecialty = Specialty::where('code', 'DBA-301')->first();
 
         if ($dbCourse && $dbCredit) {
-            $dbCourse->credits()->attach($dbCredit->id, [
-                'relation_type' => 'awarded',
-                'is_required' => true,
-                'weight' => 1,
-                'notes' => 'Professional certification awarded upon completion',
-            ]);
+            $exists = $dbCourse->credits()
+                ->wherePivot('relatable_id', $dbCredit->id)
+                ->wherePivot('relatable_type', Credit::class)
+                ->wherePivot('relation_type', 'awarded')
+                ->exists();
+                
+            if (!$exists) {
+                $dbCourse->credits()->attach($dbCredit->id, [
+                    'relation_type' => 'awarded',
+                    'is_required' => true,
+                    'weight' => 1,
+                    'notes' => 'Professional certification awarded upon completion',
+                ]);
+                $this->command->info("✅ {$dbCourse->title} → awards → {$dbCredit->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$dbCourse->title} → awards → {$dbCredit->name}");
+            }
         }
 
         if ($dbCourse && $dbSpecialty) {
-            $dbCourse->specialties()->attach($dbSpecialty->id, [
-                'relation_type' => 'recommended',
-                'is_required' => false,
-                'weight' => 1,
-                'notes' => 'Advanced database architecture specialization',
-            ]);
+            $exists = $dbCourse->specialties()
+                ->wherePivot('relatable_id', $dbSpecialty->id)
+                ->wherePivot('relatable_type', Specialty::class)
+                ->wherePivot('relation_type', 'recommended')
+                ->exists();
+                
+            if (!$exists) {
+                $dbCourse->specialties()->attach($dbSpecialty->id, [
+                    'relation_type' => 'recommended',
+                    'is_required' => false,
+                    'weight' => 1,
+                    'notes' => 'Advanced database architecture specialization',
+                ]);
+                $this->command->info("✅ {$dbCourse->title} → recommended for → {$dbSpecialty->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$dbCourse->title} → recommended for → {$dbSpecialty->name}");
+            }
         }
 
         // Machine Learning Course relationships
@@ -112,21 +165,43 @@ class CourseRelationSeeder extends Seeder
         $mlSpecialty = Specialty::where('code', 'ML-201')->first();
 
         if ($mlCourse && $mlCredit) {
-            $mlCourse->credits()->attach($mlCredit->id, [
-                'relation_type' => 'awarded',
-                'is_required' => true,
-                'weight' => 1,
-                'notes' => 'ML specialist certification upon successful completion',
-            ]);
+            $exists = $mlCourse->credits()
+                ->wherePivot('relatable_id', $mlCredit->id)
+                ->wherePivot('relatable_type', Credit::class)
+                ->wherePivot('relation_type', 'awarded')
+                ->exists();
+                
+            if (!$exists) {
+                $mlCourse->credits()->attach($mlCredit->id, [
+                    'relation_type' => 'awarded',
+                    'is_required' => true,
+                    'weight' => 1,
+                    'notes' => 'ML specialist certification upon successful completion',
+                ]);
+                $this->command->info("✅ {$mlCourse->title} → awards → {$mlCredit->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$mlCourse->title} → awards → {$mlCredit->name}");
+            }
         }
 
         if ($mlCourse && $mlSpecialty) {
-            $mlCourse->specialties()->attach($mlSpecialty->id, [
-                'relation_type' => 'recommended',
-                'is_required' => false,
-                'weight' => 1,
-                'notes' => 'Perfect for ML career advancement',
-            ]);
+            $exists = $mlCourse->specialties()
+                ->wherePivot('relatable_id', $mlSpecialty->id)
+                ->wherePivot('relatable_type', Specialty::class)
+                ->wherePivot('relation_type', 'recommended')
+                ->exists();
+                
+            if (!$exists) {
+                $mlCourse->specialties()->attach($mlSpecialty->id, [
+                    'relation_type' => 'recommended',
+                    'is_required' => false,
+                    'weight' => 1,
+                    'notes' => 'Perfect for ML career advancement',
+                ]);
+                $this->command->info("✅ {$mlCourse->title} → recommended for → {$mlSpecialty->name}");
+            } else {
+                $this->command->info("ℹ️ Relationship already exists: {$mlCourse->title} → recommended for → {$mlSpecialty->name}");
+            }
         }
     }
 

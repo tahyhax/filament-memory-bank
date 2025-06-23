@@ -1,6 +1,6 @@
 FROM php:8.3-fpm
 
-# Install system dependencies
+# Install system dependencies and Node.js
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     supervisor \
     cron
+
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

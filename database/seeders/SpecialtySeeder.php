@@ -82,8 +82,16 @@ class SpecialtySeeder extends Seeder
 
         // Create the specific specialties first
         foreach ($specificSpecialties as $specialtyData) {
-            Specialty::factory()->create($specialtyData);
-            $this->command->info("✅ Created specialty: {$specialtyData['name']}");
+            $specialty = Specialty::firstOrCreate(
+                ['code' => $specialtyData['code']], // Find by unique code
+                $specialtyData // Create with this data if not found
+            );
+            
+            if ($specialty->wasRecentlyCreated) {
+                $this->command->info("✅ Created specialty: {$specialtyData['name']}");
+            } else {
+                $this->command->info("ℹ️ Specialty already exists: {$specialtyData['name']}");
+            }
         }
 
         // Create specialties by category
@@ -108,6 +116,7 @@ class SpecialtySeeder extends Seeder
             $this->command->info("✅ Created {$remainingCount} additional random specialties");
         }
 
-        $this->command->info("🎉 Total: 40 specialties created successfully!");
+        $finalCount = Specialty::count();
+        $this->command->info("🎉 Total: {$finalCount} specialties in database!");
     }
 }

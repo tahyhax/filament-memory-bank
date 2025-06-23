@@ -75,26 +75,54 @@ class CreditSeeder extends Seeder
 
         // Create the specific credits first
         foreach ($specificCredits as $creditData) {
-            Credit::factory()->create($creditData);
-            $this->command->info("✅ Created credit: {$creditData['name']}");
+            $credit = Credit::firstOrCreate(
+                ['code' => $creditData['code']], // Find by unique code
+                $creditData // Create with this data if not found
+            );
+            
+            if ($credit->wasRecentlyCreated) {
+                $this->command->info("✅ Created credit: {$creditData['name']}");
+            } else {
+                $this->command->info("ℹ️ Credit already exists: {$creditData['name']}");
+            }
         }
 
-        // Create different types of credits
-        $this->command->info('📚 Creating Academic Credits...');
-        Credit::factory(12)->academic()->create();
-
-        $this->command->info('💼 Creating Professional Credits...');
-        Credit::factory(15)->professional()->create();
-
-        $this->command->info('🎓 Creating Continuing Education Credits...');
-        Credit::factory(8)->create(['credit_type' => 'continuing_education']);
-
-        $remainingCount = 40 - count($specificCredits) - 12 - 15 - 8;
+        // Create additional credits only if needed
+        $existingCount = Credit::count();
+        $targetCount = 40;
+        $remainingCount = max(0, $targetCount - $existingCount);
+        
         if ($remainingCount > 0) {
-            Credit::factory($remainingCount)->create();
-            $this->command->info("✅ Created {$remainingCount} additional random credits");
+            // Distribute remaining credits by type
+            $academicCount = min(12, $remainingCount);
+            $professionalCount = min(15, max(0, $remainingCount - $academicCount));
+            $continuingCount = min(8, max(0, $remainingCount - $academicCount - $professionalCount));
+            $randomCount = max(0, $remainingCount - $academicCount - $professionalCount - $continuingCount);
+            
+            if ($academicCount > 0) {
+                $this->command->info("📚 Creating {$academicCount} Academic Credits...");
+                Credit::factory($academicCount)->academic()->create();
+            }
+            
+            if ($professionalCount > 0) {
+                $this->command->info("💼 Creating {$professionalCount} Professional Credits...");
+                Credit::factory($professionalCount)->professional()->create();
+            }
+            
+            if ($continuingCount > 0) {
+                $this->command->info("🎓 Creating {$continuingCount} Continuing Education Credits...");
+                Credit::factory($continuingCount)->create(['credit_type' => 'continuing_education']);
+            }
+            
+            if ($randomCount > 0) {
+                Credit::factory($randomCount)->create();
+                $this->command->info("✅ Created {$randomCount} additional random credits");
+            }
+        } else {
+            $this->command->info("ℹ️ Target count already reached");
         }
 
-        $this->command->info("🎉 Total: 40 credits created successfully!");
+        $finalCount = Credit::count();
+        $this->command->info("🎉 Total: {$finalCount} credits in database!");
     }
 }
