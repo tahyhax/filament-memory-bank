@@ -34,21 +34,25 @@ help:
 	@echo "  make logs        - View container logs"
 	@echo "  make test        - Run tests"
 	@echo ""
+	@echo "🔑 Laravel Keys:"
+	@echo "  make key-generate - Generate APP_KEY (with container restart & cache clear)"
+	@echo ""
 	@echo "🎛️ Filament:"
 	@echo "  make filament-shield - Install and setup Filament Shield (roles & permissions)"
 	@echo "  make filament-super-admin - Create super admin user (interactive)"
 	@echo "  make filament-user-interactive - Create admin user (interactive)"
 
 # Installation & Setup - Complete project setup
-install: env-setup build up composer-install npm-install migrate seed
+install: build up composer-install npm-install migrate seed
 	@echo ""
 	@echo "🎉 Installation complete!"
 	@echo ""
 	@echo "📋 Next steps:"
-	@echo "  1. Run 'make npm-build' to build frontend assets"
-	@echo "  2. Run 'make filament-shield' to setup roles & permissions"
-	@echo "  3. Run 'make filament-super-admin' to create super admin user"
-	@echo "  4. Access admin panel: http://localhost:8080/admin"
+	@echo "  1. Run 'make key-generate' to generate encryption key"
+	@echo "  2. Run 'make npm-build' to build frontend assets"
+	@echo "  3. Run 'make filament-shield' to setup roles & permissions"
+	@echo "  4. Run 'make filament-super-admin' to create super admin user"
+	@echo "  5. Access admin panel: http://localhost:8080/admin"
 	@echo ""
 
 # Complete cleanup - Stop containers, remove all Docker resources and clean caches
@@ -173,10 +177,16 @@ filament-user-interactive:
 	@echo "👤 Creating Filament admin user (interactive)..."
 	docker-compose exec -it app php artisan make:filament-user
 
-# Key generation
+# Key generation with full reload
 key-generate:
 	@echo "🔑 Generating application key..."
 	docker-compose exec app php artisan key:generate
+	@echo "🧹 Clearing Laravel caches..."
+	docker-compose exec app php artisan config:clear
+	docker-compose exec app php artisan cache:clear
+	@echo "🔄 Restarting app container..."
+	docker-compose down && docker-compose up -d
+	@echo "✅ Application key setup complete!"
 
 # Complete rebuild - Clean everything and reinstall
 rebuild: clean-all install

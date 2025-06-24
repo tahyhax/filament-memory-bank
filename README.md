@@ -18,26 +18,34 @@ git clone <your-repo-url>
 cd filament-memory-bank
 ```
 
-### 2. Complete Project Installation
+### 2. Setup Environment
+```bash
+make env-setup
+```
+This creates the `.env` file from `.env.example` with proper configuration.
+
+### 3. Complete Project Installation
 ```bash
 make install
 ```
 This comprehensive command will:
-- Create `.env` file from `.env.example` (if needed)
+
 - Build Docker containers
 - Start all services (app, nginx, postgres, redis)
 - Install Composer dependencies
 - Install Node.js dependencies
 - Run database migrations
 - Seed the database with test data
+- **Generate APP_KEY and restart containers**
+- **Clear Laravel caches for immediate effect**
 
-### 3. Build Frontend Assets
+### 4. Build Frontend Assets
 ```bash
 make npm-build
 ```
 This builds the Vite assets required for the admin panel UI.
 
-### 4. Setup Roles & Permissions (Filament Shield)
+### 5. Setup Roles & Permissions (Filament Shield)
 ```bash
 make filament-shield
 ```
@@ -47,26 +55,34 @@ This will:
 - Create super admin role
 - Publish configuration files
 
-### 5. Create Super Admin User
+### 6. Create Super Admin User
 ```bash
 make filament-super-admin
 ```
 
-### 6. Access the Application
+### 7. Access the Application
 Access the admin panel at: [http://localhost:8080/admin](http://localhost:8080/admin)
 
 > **Installation Order**: Always run commands in this order:
-> 1. `make install` (complete project setup)
-> 2. `make npm-build` (build frontend assets)
-> 3. `make filament-shield` (setup roles & permissions)
-> 4. `make filament-super-admin` (create super admin user)
+> 1. `make env-setup` (setup environment file)
+> 2. `make install` (complete project setup + automatic key generation)
+> 3. `make npm-build` (build frontend assets)
+> 4. `make filament-shield` (setup roles & permissions)
+> 5. `make filament-super-admin` (create super admin user)
 
-> **Note**: The `make install` command automatically creates a `.env` file from `.env.example` if one doesn't exist. You can customize database credentials and other settings by editing the `.env` file before running `make install`, or use `make env-setup` to create the file separately.
+> **Note**: You can customize database credentials and other settings by editing the `.env` file after running `make env-setup` and before running `make install`. The key generation step is required for Laravel encryption services to work properly.
 
-### Manual Environment Setup
-If you need to set up just the environment file:
+### Alternative: Manual Step-by-Step Installation
+If you prefer to run commands individually (note: `make install` already includes key generation):
 ```bash
-make env-setup  # Creates .env from .env.example (if not exists)
+make env-setup         # Creates .env from .env.example
+make build             # Build Docker containers
+make up                # Start services
+make composer-install # Install PHP dependencies
+make npm-install       # Install Node.js dependencies
+make migrate           # Run database migrations
+make seed              # Seed database with test data
+make key-generate      # Generate APP_KEY (restart container + clear cache)
 ```
 
 ### Container Management
@@ -115,9 +131,10 @@ make shell     # Access app container shell
 ## 🛠️ Available Commands
 
 ### 📦 Setup & Installation
-- **Complete installation:** `make install` (env + build + up + deps + migrate + seed)
-- **Complete cleanup:** `make clean-all` (stop, remove project resources + clean cache)
 - **Environment setup:** `make env-setup` (creates .env from .env.example)
+- **Complete installation:** `make install` (build + up + deps + migrate + seed + key generation)
+- **Generate encryption key:** `make key-generate` (manual APP_KEY generation if needed)
+- **Complete cleanup:** `make clean-all` (stop, remove project resources + clean cache)
 - **Build containers:** `make build`
 - **Start services:** `make up`
 - **Stop services:** `make down`
@@ -162,6 +179,24 @@ make shell     # Access app container shell
 - **PSR-12**: Coding standards enforced
 - **PHPStan**: Array shapes and static analysis
 - **Comprehensive documentation**
+
+---
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"No application encryption key has been specified" Error:**
+- Run `make key-generate` to generate and properly configure the APP_KEY
+- This command automatically restarts containers and clears caches
+
+**500 Error after installation:**
+- Ensure you ran `make key-generate` after `make env-setup`
+- Try running `make key-generate` again to reload configuration
+
+**Redis connection issues:**
+- Verify `.env` has `REDIS_HOST=redis` (not 127.0.0.1)
+- Run `make key-generate` to fix and reload configuration
 
 ---
 

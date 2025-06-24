@@ -231,7 +231,33 @@ While the core project is complete, potential future enhancements could include:
   - Created `app/Filament/Admin/Resources/Shared/Schemas/Traits/HasRequirements.php`
   - Implements KeyValue form component for JSON requirements field
   - Properly structured with collapsible section and helpful hints
-  - Fixes import errors in CreditSchema and FullCreditSchema classes  
+  - Fixes import errors in CreditSchema and FullCreditSchema classes
+
+- [x] **README Installation Order Fixed** - Corrected installation sequence in documentation
+  - Updated installation steps to run `env-setup` first, then `install`
+  - Fixed command numbering and installation order instructions
+  - Clarified that environment setup must come before project installation
+  - Updated command reference section to reflect proper order
+
+- [x] **APP_KEY Generation Issues Fixed** - Resolved encryption key problems
+  - Identified issue: Docker containers not reloading environment variables after key generation
+  - Solution: Enhanced `make key-generate` command with container restart + cache clearing
+  - Fixed Redis host configuration (127.0.0.1 → redis for Docker)
+  - Application now fully functional with proper encryption key setup
+
+- [x] **README Updated with Key Generation** - Comprehensive documentation update
+  - Added step 3: `make key-generate` to installation sequence
+  - Updated all step numbers and installation order instructions
+  - Enhanced manual installation section with key generation step
+  - Added troubleshooting section for common encryption key issues
+  - Updated command reference to include key-generate command
+
+- [x] **Installation Logic Fixed** - Corrected container dependency issue
+  - Fixed logical error: key-generate requires running containers
+  - Updated README to correct sequence: env-setup → install → key-generate
+  - Enhanced `make install` to automatically include key generation
+  - Simplified user experience: fewer manual steps required
+  - Maintained `make key-generate` as separate command for manual use  
 
 ### 🎯 OBJECTIVES
 - [x] **Creative Phase Complete** - Architecture design decisions finalized
